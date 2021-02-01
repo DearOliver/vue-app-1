@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -43,9 +43,33 @@
             padding: 30px;
         }
 
-        #characters>p {
-            margin: 20px;
-            font-size: 25px;
+        #characters>ul {
+            columns: 3;
+            list-style-type:none;
+            -webkit-columns: 3;
+            -moz-columns: 3;
+        }
+
+        #characters>ul>li {
+            margin: 40px;
+            font-size: 30px;
+        }
+
+        #characters>ul>li:hover {
+            color : darkgreen;
+        }
+
+        #characters>hr {
+            margin: 60px;
+        }
+
+        #characters>div>h2 {
+            color : darkgreen;
+            margin : 40px;
+        }
+
+        #characters>div>p {
+            margin : 20px;
         }
 
     </style>
@@ -55,26 +79,39 @@
 <body>
     <h1>Characters</h1>
     <div id="characters">
-        <p v-for="character in characters">
-            {{ character['name'] }}
-        </p>
+        <ul>
+            <li v-for="(character, i) in characters" :key="character" @click="displaycharacter(i)" >
+                {{ character['name'] }}
+            </li>
+        </ul>
+        <hr>
+        <div v-if="is_character">
+            <h2><b>🧍 {{ characterpicked['name'] }} 🧍</b></h2>
+            <p><b>🏠 House 🏠 : </b>{{ characterpicked['house'] }}</p>
+            <p><b>🗓️ Date Of Birth 🗓️ : </b>{{ characterpicked['dateOfBirth'] }}</p>
+            <p><b>🍭 Wand 🍭 : </b>{{ characterpicked['wand']['wood'] }} wood, {{ characterpicked['wand']['core'] }} core, {{ characterpicked['wand']['length'] }} inches</p>
+        </div>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
     <script>
+
         new Vue({
             el: '#characters',
             data: {
-                characters : ['Harry', 'Hermione']
+                characters : [],
+                characterpicked : null,
+                is_character : false
             },
             mounted() {
                 axios.get('http://hp-api.herokuapp.com/api/characters').then(response => this.characters = response['data'])
             },
             methods: {
-                addItem: function() {
-                    this.list.push('Orange' + (++this.counter).toString())
+                displaycharacter: function(i){
+                    this.characterpicked = this.characters[i];
+                    this.is_character = true
                 }
             }
         })
