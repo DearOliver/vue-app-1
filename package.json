@@ -1,0 +1,17 @@
+{
+  "name": "hogwarts-news",
+  "version": "1.0.0",
+  "dependencies": {
+    "vue": "^2.6.12",
+    "vue-axios": "^3.2.4",
+    "axios": "latest",
+    "vue-axios": "latest",
+    "vue": "latest",
+    "axios": "latest",
+    "axios": "latest",
+    "vue-axios": "latest"
+  },
+  "devDependencies": {
+    "axios": "^0.21.1"
+  }
+}

@@ -9,17 +9,15 @@
     <style>
         @import url(https://fonts.googleapis.com/css?family=Homemade+Apple);
 
-        [v-cloak] {   display: none;
-        }
-
         *{
             margin:0;
             padding:0;
         }
 
         body{
-            font:15px/1.3 'Homemade Apple', sans-serif;
+            font:25px/1.3 'Homemade Apple', sans-serif;
             color: #191919;
+            margin: 80px;
             text-align:center;
             background-image: url('https://i.pinimg.com/originals/24/01/ab/2401ab3e767a38150ff7871a6a0f9b32.jpg');
             background-repeat: no-repeat;
@@ -45,76 +43,41 @@
             padding: 30px;
         }
 
-        #characters>li {
+        #characters>p {
             margin: 20px;
+            font-size: 25px;
         }
 
     </style>
 
 </head>
+
 <body>
-
-<!--<div id="main" v-cloak>
-  <div id="characters">
     <h1>Characters</h1>
-    {{ charactersliste }}
-    <ul>
-      <li v-for="character in characters" v-on:click="toggleActive(service)">
-        <p>Character 2</p>
-      </li>
-    </ul>
-  </div>
-</div>-->
+    <div id="characters">
+        <p v-for="character in characters">
+            {{ character['name'] }}
+        </p>
+    </div>
 
-<div id="app" v-cloak>
-    {{ this.info }}
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.5/vue.min.js"></script>
-<script>
-    import Vue from 'vue'
-    import axios from 'axios'
-    import VueAxios from 'vue-axios'
-
-    Vue.use(VueAxios, axios);
-
-    new Vue({
-        el: '#app',
-        data () {
-            return {
-                info: null
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#characters',
+            data: {
+                characters : ['Harry', 'Hermione']
+            },
+            mounted() {
+                axios.get('http://hp-api.herokuapp.com/api/characters').then(response => this.characters = response['data'])
+            },
+            methods: {
+                addItem: function() {
+                    this.list.push('Orange' + (++this.counter).toString())
+                }
             }
-        },
-        mounted () {
-            axios.get('https://api.coindesk.com/v1/bpi/currentprice.json').then(response => (this.info = response))
-        }
-    });
-
-    /*var demo = new Vue({
-        el: '#main',
-        data: {
-            charactersliste : null
-            /!*characters: []*!/
-        },
-        mounted() {
-            axios.get('http://hp-api.herokuapp.com/api/characters.json').then(response => this.charactersliste = response)
-        },
-        methods: {
-            total: function(){
-
-                var total = 0;
-
-                this.services.forEach(function(s){
-                    if (s.active){
-                        total+= s.price;
-                    }
-                });
-
-                return total;
-            }
-        }
-    });*/
-
-</script>
+        })
+    </script>
 </body>
 </html>
