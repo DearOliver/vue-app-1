@@ -106,7 +106,7 @@
                 is_character : false
             },
             mounted() {
-                axios.get('http://hp-api.herokuapp.com/api/characters').then(response => this.characters = response['data'])
+                axios.get('https://hp-api.herokuapp.com/api/characters').then(response => this.characters = response['data'])
             },
             methods: {
                 displaycharacter: function(i){
